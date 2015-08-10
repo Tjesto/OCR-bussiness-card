@@ -35,10 +35,11 @@ public abstract class TextRecognitionTask
 		boolean extractionSucceed = false;
 		// TODO Auto-generated method stub
 		String extractedResult = extraction(bmp);
+		Log.d("mszych", "extractionPerfrmed");
 		extractionSucceed = (extractedResult != null && extractedResult.trim().length() > 0);
 		if (extractionSucceed) {
 			results.add(new HashMap<String, String>());
-			Log.d(TAG + "-Result", extractedResult);
+			Log.d("mszych", extractedResult);
 		}
 		Log.i(TAG, "Bitmap extraction finished");
 	}
