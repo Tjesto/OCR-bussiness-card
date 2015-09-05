@@ -122,10 +122,15 @@ int bool abc_config_actionMenuItemAllCaps 0x7f050005
 int bool abc_config_allowActionMenuItemTextWithIcon 0x7f050004
 int bool abc_config_showMenuShortcutsWhenKeyboardPresent 0x7f050003
 int bool abc_split_action_bar_is_narrow 0x7f050002
-int color abc_search_url_text_holo 0x7f060003
+int color abc_search_url_text_holo 0x7f060007
 int color abc_search_url_text_normal 0x7f060000
 int color abc_search_url_text_pressed 0x7f060002
 int color abc_search_url_text_selected 0x7f060001
+int color accented 0x7f060005
+int color button_text_selector 0x7f060008
+int color default_color 0x7f060003
+int color default_darker 0x7f060004
+int color transparent 0x7f060006
 int dimen abc_action_bar_default_height 0x7f070002
 int dimen abc_action_bar_icon_vertical_padding 0x7f070003
 int dimen abc_action_bar_progress_bar_size 0x7f07000a
@@ -234,7 +239,8 @@ int drawable abc_textfield_searchview_holo_dark 0x7f020053
 int drawable abc_textfield_searchview_holo_light 0x7f020054
 int drawable abc_textfield_searchview_right_holo_dark 0x7f020055
 int drawable abc_textfield_searchview_right_holo_light 0x7f020056
-int drawable ic_launcher 0x7f020057
+int drawable button_bg_selector 0x7f020057
+int drawable ic_launcher 0x7f020058
 int id HelloOpenCvView 0x7f090043
 int id action_bar 0x7f09001f
 int id action_bar_activity_content 0x7f090001
@@ -252,6 +258,7 @@ int id always 0x7f090012
 int id any 0x7f090006
 int id back 0x7f090007
 int id beginning 0x7f090019
+int id captureButton 0x7f090044
 int id checkbox 0x7f090030
 int id collapseActionView 0x7f090013
 int id default_activity_button 0x7f09002b
@@ -344,8 +351,12 @@ int string abc_searchview_description_voice 0x7f0a0008
 int string abc_shareactionprovider_share_with 0x7f0a000c
 int string abc_shareactionprovider_share_with_application 0x7f0a000b
 int string app_name 0x7f0a000d
+int string capture_button_label 0x7f0a000e
 int style AppBaseTheme 0x7f0b008b
 int style AppTheme 0x7f0b008c
+int style Base_ActionBarStyle 0x7f0b008e
+int style Base_Button 0x7f0b008f
+int style Base_Theme 0x7f0b008d
 int style TextAppearance_AppCompat_Base_CompactMenu_Dialog 0x7f0b0063
 int style TextAppearance_AppCompat_Base_SearchResult 0x7f0b006d
 int style TextAppearance_AppCompat_Base_SearchResult_Subtitle 0x7f0b006f
@@ -561,7 +572,7 @@ int styleable MenuItem_android_title 7
 int styleable MenuItem_android_titleCondensed 8
 int styleable MenuItem_android_visible 4
 int styleable MenuItem_showAsAction 13
-int[] styleable MenuView { 0x010100ae, 0x0101012c, 0x0101012d, 0x0101012e, 0x0101012f, 0x01010130, 0x01010131, 0x0101052f }
+int[] styleable MenuView { 0x010100ae, 0x0101012c, 0x0101012d, 0x0101012e, 0x0101012f, 0x01010130, 0x01010131, 0x01160055 }
 int styleable MenuView_android_headerBackground 4
 int styleable MenuView_android_horizontalDivider 2
 int styleable MenuView_android_itemBackground 5

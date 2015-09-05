@@ -884,10 +884,15 @@ containing a value of this type.
         public static final int abc_split_action_bar_is_narrow=0x7f050002;
     }
     public static final class color {
-        public static final int abc_search_url_text_holo=0x7f060003;
+        public static final int abc_search_url_text_holo=0x7f060007;
         public static final int abc_search_url_text_normal=0x7f060000;
         public static final int abc_search_url_text_pressed=0x7f060002;
         public static final int abc_search_url_text_selected=0x7f060001;
+        public static final int accented=0x7f060005;
+        public static final int button_text_selector=0x7f060008;
+        public static final int default_color=0x7f060003;
+        public static final int default_darker=0x7f060004;
+        public static final int transparent=0x7f060006;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -1094,7 +1099,8 @@ containing a value of this type.
         public static final int abc_textfield_searchview_holo_light=0x7f020054;
         public static final int abc_textfield_searchview_right_holo_dark=0x7f020055;
         public static final int abc_textfield_searchview_right_holo_light=0x7f020056;
-        public static final int ic_launcher=0x7f020057;
+        public static final int button_bg_selector=0x7f020057;
+        public static final int ic_launcher=0x7f020058;
     }
     public static final class id {
         public static final int HelloOpenCvView=0x7f090043;
@@ -1114,6 +1120,7 @@ containing a value of this type.
         public static final int any=0x7f090006;
         public static final int back=0x7f090007;
         public static final int beginning=0x7f090019;
+        public static final int captureButton=0x7f090044;
         public static final int checkbox=0x7f090030;
         public static final int collapseActionView=0x7f090013;
         public static final int default_activity_button=0x7f09002b;
@@ -1261,6 +1268,7 @@ containing a value of this type.
          */
         public static final int abc_shareactionprovider_share_with_application=0x7f0a000b;
         public static final int app_name=0x7f0a000d;
+        public static final int capture_button_label=0x7f0a000e;
     }
     public static final class style {
         /** 
@@ -1272,23 +1280,15 @@ containing a value of this type.
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
         
-
-        Base application theme for API 11+. This theme completely replaces
-        AppBaseTheme from res/values/styles.xml on API 11+ devices.
-    
- API 11 theme customizations can go here. 
-
-        Base application theme for API 14+. This theme completely replaces
-        AppBaseTheme from BOTH res/values/styles.xml and
-        res/values-v11/styles.xml on API 14+ devices.
-    
- API 14 theme customizations can go here. 
          */
         public static final int AppBaseTheme=0x7f0b008b;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f0b008c;
+        public static final int Base_ActionBarStyle=0x7f0b008e;
+        public static final int Base_Button=0x7f0b008f;
+        public static final int Base_Theme=0x7f0b008d;
         /**  Mimic text appearance in select_dialog_item.xml 
          */
         public static final int TextAppearance_AppCompat_Base_CompactMenu_Dialog=0x7f0b0063;
@@ -2692,7 +2692,7 @@ containing a value of this type.
          */
         public static final int[] MenuView = {
             0x010100ae, 0x0101012c, 0x0101012d, 0x0101012e,
-            0x0101012f, 0x01010130, 0x01010131, 0x0101052f
+            0x0101012f, 0x01010130, 0x01010131, 0x01160055
         };
         /**
           <p>

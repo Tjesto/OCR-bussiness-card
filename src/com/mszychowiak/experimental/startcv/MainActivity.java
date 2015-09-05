@@ -23,13 +23,16 @@ import org.opencv.imgproc.Imgproc;
 import com.mszychowiak.experimental.opencvstart.R;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -37,13 +40,14 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity implements CvCameraViewListener2, OnRecognitionTaskListener{
 	
-	private static final String TESS_DIR = "/mnt/sdcard/tesseract/tessdata";
+	private static final String TESS_DIR = "data/local/tmp/tessdata";
 	public static File TESS_DIR_F;
 	private CameraBridgeViewBase cameraView;
 	private SeekBar t1;
 	private SeekBar t2;
 	private TextView t1t;
 	private TextView t2t;
+	private Button captureButton;
 	
 	private BaseLoaderCallback callback = new BaseLoaderCallback(this) {
 		public void onManagerConnected(int status) {
@@ -61,6 +65,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2, OnR
 	};
 	private volatile TextRecognitionTask recognitionTask;
 	private Bitmap tempBmp;
+	private volatile boolean capturingOn;
 	
 	protected void onCreate(android.os.Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -69,18 +74,28 @@ public class MainActivity extends Activity implements CvCameraViewListener2, OnR
 		cameraView = (CameraBridgeViewBase) findViewById(R.id.HelloOpenCvView);
 		cameraView.setVisibility(SurfaceView.VISIBLE);
 		cameraView.setCvCameraViewListener(this);
+		captureButton = (Button) findViewById(R.id.captureButton);
 		TESS_DIR_F = new File(TESS_DIR);
-		if (!assetsCoppied()) {
+		if (!assetsCoppied() || true) {
 			copyAssets();
 		}
 		t1 = (SeekBar) findViewById(R.id.t1);
 		t2 = (SeekBar) findViewById(R.id.t2);
 		t1t = (TextView) findViewById(R.id.t1Text);
 		t2t = (TextView) findViewById(R.id.t2Text);
+		t2.setProgress(1);
 		t1.setVisibility(View.GONE);
 		t1t.setVisibility(View.GONE);
 		t2.setVisibility(View.GONE);
-		t2t.setVisibility(View.GONE);
+		t2t.setVisibility(View.GONE);		
+		captureButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {				
+				capturingOn = true;
+				captureButton.setEnabled(false);
+			}		
+		});
 		t1.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 			
 			@Override
@@ -129,6 +144,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2, OnR
 	private boolean assetsCoppied() {
 		Log.d("mszych", "" + TESS_DIR_F.exists());
 		if (TESS_DIR_F.exists()) {
+			Log.d("mszych", "" + TESS_DIR_F.getAbsolutePath());
 			for (File f : TESS_DIR_F.listFiles()) {
 				Log.d("mszych", "" + f.getAbsolutePath());
 			}
@@ -170,18 +186,26 @@ public class MainActivity extends Activity implements CvCameraViewListener2, OnR
 		Mat mid = new Mat();
 		//t1= 83; t2 = 64		
 		Imgproc.Canny(s, out, /*t1.getProgress()*/83, /*t2.getProgress()*/64);
-		bmp = Bitmap.createBitmap(out.cols(), out.rows(), Bitmap.Config.ARGB_8888);
-		Utils.matToBitmap(out, bmp);
-		if (recognitionTask == null) {			
-			recognitionTask = new TesseractRecognitionTask(this);
-			recognitionTask.execute(bmp);			
-		}		
+		//Imgproc.Sobel(mid, out, t1.getProgress(), t2.getProgress(), t2.getProgress());
+		if (capturingOn) {
+			bmp = Bitmap.createBitmap(out.cols(), out.rows(), Bitmap.Config.ARGB_8888);
+			Utils.matToBitmap(out, bmp);
+			if (recognitionTask == null) {			
+				recognitionTask = new TesseractRecognitionTask(this);
+				recognitionTask.execute(bmp);			
+			}		
+		}
 		return out;
 	}
 
 	@Override
 	public void onExtractionFinished(List<Map<String, String>> result) {
 		recognitionTask = null;
+		capturingOn = false;
+		captureButton.setEnabled(true);
+		new AlertDialog.Builder(this)
+		.setNeutralButton("OK", null)
+		.setMessage(result.get(0).get("all")).show();
 	}
 	
 	private void copyAssets() {
@@ -203,7 +227,9 @@ public class MainActivity extends Activity implements CvCameraViewListener2, OnR
 	        	  TESS_DIR_F.mkdir();
 	          }
 	          File outFile = new File(TESS_DIR_F, filename);
-	          
+	          if (!outFile.exists()) {
+	        	  outFile.createNewFile();
+	          }
 	          out = new FileOutputStream(outFile);
 	          byte[] buffer = new byte[1024];
 	          int read;

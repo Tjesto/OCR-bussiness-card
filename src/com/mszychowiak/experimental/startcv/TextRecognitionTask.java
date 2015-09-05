@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -38,8 +40,10 @@ public abstract class TextRecognitionTask
 		Log.d("mszych", "extractionPerfrmed");
 		extractionSucceed = (extractedResult != null && extractedResult.trim().length() > 0);
 		if (extractionSucceed) {
-			results.add(new HashMap<String, String>());
-			Log.d("mszych", extractedResult);
+			Map<String, String> resultsMap = new HashMap<String, String>();
+			resultsMap.put("all", extractedResult);
+			results.add(resultsMap);
+			Log.d("mszych", extractedResult);				
 		}
 		Log.i(TAG, "Bitmap extraction finished");
 	}
