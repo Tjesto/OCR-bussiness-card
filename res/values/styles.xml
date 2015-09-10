@@ -22,7 +22,7 @@
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:windowBackground">@null</item>
         <item name="android:textColor">@color/default_darker</item>
-        <item name="android:button">@style/Base.Button</item>
+        <item name="android:button">@style/Base.Button</item>        
     </style>
 
     <style name="Base.ActionBarStyle" parent="android:Widget.Holo.ActionBar">
@@ -34,5 +34,6 @@
         <item name="android:background">@drawable/button_bg_selector</item>
         <item name="android:textColor">@color/button_text_selector</item>
     </style>
+    
     
 </resources>

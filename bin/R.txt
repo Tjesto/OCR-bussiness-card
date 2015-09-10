@@ -258,7 +258,8 @@ int id always 0x7f090012
 int id any 0x7f090006
 int id back 0x7f090007
 int id beginning 0x7f090019
-int id captureButton 0x7f090044
+int id captureButton 0x7f090046
+int id capturing_bitmap 0x7f090044
 int id checkbox 0x7f090030
 int id collapseActionView 0x7f090013
 int id default_activity_button 0x7f09002b
@@ -283,6 +284,7 @@ int id none 0x7f09001c
 int id normal 0x7f09000a
 int id progress_circular 0x7f090004
 int id progress_horizontal 0x7f090005
+int id progress_layout 0x7f090045
 int id radio 0x7f090032
 int id search_badge 0x7f090035
 int id search_bar 0x7f090034
@@ -352,6 +354,7 @@ int string abc_shareactionprovider_share_with 0x7f0a000c
 int string abc_shareactionprovider_share_with_application 0x7f0a000b
 int string app_name 0x7f0a000d
 int string capture_button_label 0x7f0a000e
+int string wait_recognizing 0x7f0a000f
 int style AppBaseTheme 0x7f0b008b
 int style AppTheme 0x7f0b008c
 int style Base_ActionBarStyle 0x7f0b008e

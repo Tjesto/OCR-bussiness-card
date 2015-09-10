@@ -2,5 +2,6 @@
 
     <string name="app_name">OpenCVStart</string>
     <string name="capture_button_label">Capture</string>
+    <string name="wait_recognizing">Wait for recognizing text</string>
 
 </resources>
