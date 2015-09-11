@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:state_enabled="false"><solid android:color="@color/transparent" /></item>
+    <item android:state_pressed="true"><solid android:color="@color/accented" /></item>
+    <item><solid android:color="@color/default_color" /></item>
+</selector>
