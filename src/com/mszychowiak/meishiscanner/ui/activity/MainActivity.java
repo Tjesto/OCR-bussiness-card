@@ -25,15 +25,21 @@ import com.mszychowiak.meishiscanner.tasks.parsing.ParseDataKeys;
 import com.mszychowiak.meishiscanner.tasks.recognition.OnRecognitionTaskListener;
 import com.mszychowiak.meishiscanner.tasks.recognition.TesseractRecognitionTask;
 import com.mszychowiak.meishiscanner.tasks.recognition.TextRecognitionTask;
+import com.mszychowiak.meishiscanner.ui.controller.BaseCamera;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Camera;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraManager;
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -56,6 +62,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2, OnR
 	private Button captureButton;
 	private ImageView bitmapPreview;
 	private Handler handler = new Handler();
+	private Camera cam;
 	
 	private BaseLoaderCallback callback = new BaseLoaderCallback(this) {
 		public void onManagerConnected(int status) {
@@ -74,6 +81,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2, OnR
 	private volatile TextRecognitionTask recognitionTask;
 	private Bitmap tempBmp;
 	private volatile boolean capturingOn;
+	private volatile BaseCamera camera;
 	
 	protected void onCreate(android.os.Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -88,6 +96,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2, OnR
 		if (!assetsCoppied() || true) {
 			copyAssets();
 		}
+		camera = BaseCamera.create(this);
 		t1 = (SeekBar) findViewById(R.id.t1);
 		t2 = (SeekBar) findViewById(R.id.t2);
 		t1t = (TextView) findViewById(R.id.t1Text);
@@ -96,13 +105,14 @@ public class MainActivity extends Activity implements CvCameraViewListener2, OnR
 		t1.setVisibility(View.GONE);
 		t1t.setVisibility(View.GONE);
 		t2.setVisibility(View.GONE);
-		t2t.setVisibility(View.GONE);		
+		t2t.setVisibility(View.GONE);
+		
+		final boolean hasLight = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);		
 		captureButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
-			public void onClick(View v) {				
-				capturingOn = true;
-				captureButton.setEnabled(false);
+			public void onClick(View v) {
+				onCapture();
 				
 			}		
 		});
@@ -151,6 +161,23 @@ public class MainActivity extends Activity implements CvCameraViewListener2, OnR
 		
 	};
 	
+	@Override
+	public boolean onKeyUp(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_CAMERA) {
+			onCapture();
+			return true;
+		}
+		return super.onKeyUp(keyCode, event);
+	}
+	
+	private void onCapture() {
+		if (camera != null) {
+			camera.turnOnLight();
+		}
+		capturingOn = true;
+		captureButton.setEnabled(false);
+	}
+
 	private boolean assetsCoppied() {
 		Log.d("mszych", "" + TESS_DIR_F.exists());
 		if (TESS_DIR_F.exists()) {
@@ -215,23 +242,55 @@ public class MainActivity extends Activity implements CvCameraViewListener2, OnR
 		recognitionTask = null;
 		capturingOn = false;
 		captureButton.setEnabled(true);
-		new AlertDialog.Builder(this)
-		.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				StringBuilder sb = new StringBuilder();
-				for (String s : result.get(1).get(ParseDataKeys.TELEPHONE)) {
-					sb.append(s).append("\n");
-				}
-				new AlertDialog.Builder(MainActivity.this)
-				.setNeutralButton("OK", null)
-				.setTitle("Possible telephone")
-				.setMessage(sb.toString()).show();
-				
-			}
-		})
-		.setMessage(result.get(0).get("all").get(0)).show();		
+//		new AlertDialog.Builder(this)
+//		.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+//			
+//			@Override
+//			public void onClick(DialogInterface dialog, int which) {
+//				StringBuilder sb = new StringBuilder();
+//				for (String s : result.get(1).get(ParseDataKeys.TELEPHONE)) {
+//					sb.append(s).append("\n");
+//				}
+//				new AlertDialog.Builder(MainActivity.this)
+//				.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+//					
+//					@Override
+//					public void onClick(DialogInterface dialog, int which) {
+//						StringBuilder sb = new StringBuilder();
+//						for (String s : result.get(1).get(ParseDataKeys.CO_NAME)) {
+//							sb.append(s).append("\n");
+//						}
+//						new AlertDialog.Builder(MainActivity.this)
+//						.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+//							
+//							@Override
+//							public void onClick(DialogInterface dialog, int which) {
+//								StringBuilder sb = new StringBuilder();
+//								for (String s : result.get(1).get(ParseDataKeys.P_NAME)) {
+//									sb.append(s).append("\n");
+//								}
+//								new AlertDialog.Builder(MainActivity.this)
+//								.setNeutralButton("OK", null)
+//								.setTitle("Possible People names")
+//								.setMessage(sb.toString()).show();
+//								
+//							}
+//						})
+//						.setTitle("Possible company names")
+//						.setMessage(sb.toString()).show();
+//						
+//					}
+//				})
+//				.setTitle("Possible telephone")
+//				.setMessage(sb.toString()).show();
+//				
+//			}
+//		})
+//		.setMessage(result.get(0).get("all").get(0)).show();	
+		if (camera != null) {
+			camera.turnOffLight();
+		}
+		DataResultActivity.startWith(this, result.get(1));
 	}
 	
 	private void copyAssets() {

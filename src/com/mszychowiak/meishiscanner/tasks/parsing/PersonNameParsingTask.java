@@ -33,6 +33,9 @@ public class PersonNameParsingTask extends AbstractParsingTask {
 			if (s.toLowerCase().contains("s.j.") || s.toLowerCase().contains("s j") || s.toLowerCase().contains(" sj")) {
 				continue;
 			}
+			if (!s.toLowerCase().contains(" ")) {
+				continue;
+			}
 			personNames.add(s);
 		}
 		return personNames;

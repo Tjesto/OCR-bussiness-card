@@ -3,5 +3,16 @@
     <string name="app_name">OpenCVStart</string>
     <string name="capture_button_label">Capture</string>
     <string name="wait_recognizing">Wait for recognizing text</string>
+    <string name="field_name">Name:</string>
+    <string name="field_surname">Surname:</string>
+    <string name="field_telephone">Telephone number:</string>
+    <string name="field_email">Email:</string>
+    <string name="field_co">Company:</string>
+    <string name="field_web">Website:</string>
+    <string name="saving_passed">Contact saved</string>
+    <string name="saving_failed">Contact not saved</string>
+    <string name="ok">OK</string>
+    <string name="save">Save</string>
+    <string name="discard">Discard</string>
 
 </resources>
